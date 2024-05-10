@@ -8,6 +8,9 @@ dependencies:
   next:
     specifier: 14.2.3
     version: 14.2.3(react-dom@18.0.0)(react@18.0.0)
+  pubsub-js:
+    specifier: ^1.9.4
+    version: 1.9.4
   react:
     specifier: ^18
     version: 18.0.0
@@ -19,6 +22,9 @@ devDependencies:
   '@types/node':
     specifier: ^20
     version: 20.0.0
+  '@types/pubsub-js':
+    specifier: ^1.8.6
+    version: 1.8.6
   '@types/react':
     specifier: ^18
     version: 18.0.0
@@ -273,6 +279,10 @@ packages:
 
   /@types/prop-types@15.7.12:
     resolution: {integrity: sha512-5zvhXYtRNRluoE/jAp4GVsSduVUzNWKkOZrCDBWYtE7biZywwdC2AcEzg+cSMLFRfVgeAFqpfNabiPjxFddV1Q==}
+    dev: true
+
+  /@types/pubsub-js@1.8.6:
+    resolution: {integrity: sha512-Kwug5cwV0paUDm/NfwDx1sp9xI0bGIvmWJjJWCU8NngkCCMt3EIC7oPDvb6fV7BR8kPpFyyBu4D11bda/2MdPA==}
     dev: true
 
   /@types/react-dom@18.0.0:
@@ -2221,6 +2231,10 @@ packages:
       object-assign: 4.1.1
       react-is: 16.13.1
     dev: true
+
+  /pubsub-js@1.9.4:
+    resolution: {integrity: sha512-hJYpaDvPH4w8ZX/0Fdf9ma1AwRgU353GfbaVfPjfJQf1KxZ2iHaHl3fAUw1qlJIR5dr4F3RzjGaWohYUEyoh7A==}
+    dev: false
 
   /punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
