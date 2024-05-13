@@ -1,6 +1,6 @@
 'use client';
 
-import { Topic, useSubscription } from "@/hooks/useSubscription/useSubscription";
+import { Topic, useSubscription } from "@/utils/pubsub-lib/useSubscription";
 import { useState } from "react";
 
 export const CounterDisplay = () => {
@@ -21,4 +21,3 @@ export const CounterDisplay = () => {
         <p className="text-sm">{hash}</p>
     </div>;
 };
-

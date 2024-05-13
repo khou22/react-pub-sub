@@ -8,7 +8,7 @@ export enum Topic {
     Hash = 'hash'
 }
 
-interface TopicDataMap {
+export interface TopicDataMap {
     [Topic.Counter]: {
         count: number
     };
