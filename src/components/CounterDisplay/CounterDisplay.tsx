@@ -1,16 +1,17 @@
 'use client';
 
-import { Topic, usePubSub } from "@/utils/usePubSub/usePubSub";
+import { PubSubPayloadMap } from "@/models/pubsub";
+import { usePubSub } from "@/utils/usePubSub/usePubSub";
 import { useState } from "react";
 
 export const CounterDisplay = () => {
     const [count, setCount] = useState(0);
     const [hash, setHash] = useState('none');
 
-    usePubSub(Topic.Counter, (data) => {
+    usePubSub<PubSubPayloadMap, 'counter'>('counter', (data) => {
         setCount(data.count);
     });
-    usePubSub(Topic.Hash, (data) => {
+    usePubSub<PubSubPayloadMap, 'hash'>('hash', (data) => {
         setHash(data.hash);
     });
 

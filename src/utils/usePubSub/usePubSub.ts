@@ -1,35 +1,29 @@
 'use client'
 
-import PubSub from 'pubsub-js'
-import { useEffect } from 'react';
+import { useCallback, useEffect } from "react";
+import PubSub from "pubsub-js";
 
-export enum Topic {
-    Counter = 'counter',
-    Hash = 'hash'
+// Define a generic map interface where the key is the topic and the value is the payload type.
+export interface TopicPayloadMapBase {
+    [topic: string]: any;
 }
 
-export interface TopicDataMap {
-    [Topic.Counter]: {
-        count: number
-    };
-    [Topic.Hash]: {
-        hash: string
-    }
-}
+// Generic hook function that accepts a topic and returns a publisher function for that topic.
+export const usePubSub = <TMap extends TopicPayloadMapBase, TTopic extends keyof TMap>(
+    topic: TTopic,
+    onMessage?: (payload: TMap[TTopic]) => void
+): { publish: (payload: TMap[TTopic]) => void } => {
 
-/**
- * A hook that allows subscribing to a topic and optionally receiving messages.
- * @param topic The topic to subscribe to.
- * @param onMessage A function to receive messages from the topic.
- * @returns A function to publish messages to the topic.
- */
-export const usePubSub = <TopicType extends Topic>(topic: TopicType, onMessage?: (data: TopicDataMap[TopicType]) => void) => {
+    const publish = useCallback((payload: TMap[TTopic]) => {
+        PubSub.publish(String(topic), payload)
+    }, [topic])
+
     useEffect(() => {
         if (!onMessage) {
             return
         }
 
-        const listener: PubSubJS.SubscriptionListener<TopicDataMap[TopicType]> = (incomingTopic, data) => {
+        const listener: PubSubJS.SubscriptionListener<TMap[TTopic]> = (incomingTopic, data) => {
             if (!data) {
                 console.warn('No data received for topic', topic)
                 return
@@ -42,19 +36,12 @@ export const usePubSub = <TopicType extends Topic>(topic: TopicType, onMessage?:
             onMessage(data);
         }
 
-        PubSub.subscribe(topic, listener);
+        PubSub.subscribe(String(topic), listener);
 
         return () => {
             PubSub.unsubscribe(listener)
         }
-    }, [onMessage]);
+    }, [onMessage, topic]);
 
-    const sendMessage = (data: TopicDataMap[TopicType]) => {
-        PubSub.publish(topic, data);
-    }
-
-    return {
-        publish: sendMessage
-    }
-};
-
+    return { publish };
+}

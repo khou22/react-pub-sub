@@ -1,17 +1,16 @@
 'use client'
 
-import { Topic, usePubSub } from "@/utils/usePubSub/usePubSub";
+import { usePubSub } from "@/utils/usePubSub/usePubSub";
 import { useState } from "react";
 import { generateNonce } from "@/utils/nonce";
+import { PubSubPayloadMap } from "@/models/pubsub";
 
 export const IncrementButton = () => {
     const [count, setCount] = useState(0);
-    const { publish: publishCounter } = usePubSub(Topic.Counter);
-    const { publish: publishHash } = usePubSub(Topic.Hash);
-
-    usePubSub(Topic.Counter, (data) => {
+    const { publish: publishCounter } = usePubSub<PubSubPayloadMap, 'counter'>('counter', (data) => {
         setCount(data.count);
     });
+    const { publish: publishHash } = usePubSub<PubSubPayloadMap, 'hash'>('hash');
 
     const increment = () => {
         publishCounter({ count: count + 1 });
