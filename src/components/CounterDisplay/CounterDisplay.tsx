@@ -1,16 +1,16 @@
 'use client';
 
-import { Topic, useSubscription } from "@/utils/pubsub-lib/useSubscription";
+import { Topic, usePubSub } from "@/utils/usePubSub/usePubSub";
 import { useState } from "react";
 
 export const CounterDisplay = () => {
     const [count, setCount] = useState(0);
     const [hash, setHash] = useState('none');
 
-    useSubscription(Topic.Counter, (data) => {
+    usePubSub(Topic.Counter, (data) => {
         setCount(data.count);
     });
-    useSubscription(Topic.Hash, (data) => {
+    usePubSub(Topic.Hash, (data) => {
         setHash(data.hash);
     });
 

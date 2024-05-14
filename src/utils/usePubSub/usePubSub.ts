@@ -17,9 +17,18 @@ export interface TopicDataMap {
     }
 }
 
-export const useSubscription = <TopicType extends Topic>(topic: TopicType, onMessage: (data: TopicDataMap[TopicType]) => void) => {
-
+/**
+ * A hook that allows subscribing to a topic and optionally receiving messages.
+ * @param topic The topic to subscribe to.
+ * @param onMessage A function to receive messages from the topic.
+ * @returns A function to publish messages to the topic.
+ */
+export const usePubSub = <TopicType extends Topic>(topic: TopicType, onMessage?: (data: TopicDataMap[TopicType]) => void) => {
     useEffect(() => {
+        if (!onMessage) {
+            return
+        }
+
         const listener: PubSubJS.SubscriptionListener<TopicDataMap[TopicType]> = (incomingTopic, data) => {
             if (!data) {
                 console.warn('No data received for topic', topic)
@@ -38,6 +47,14 @@ export const useSubscription = <TopicType extends Topic>(topic: TopicType, onMes
         return () => {
             PubSub.unsubscribe(listener)
         }
-    }, []);
+    }, [onMessage]);
+
+    const sendMessage = (data: TopicDataMap[TopicType]) => {
+        PubSub.publish(topic, data);
+    }
+
+    return {
+        publish: sendMessage
+    }
 };
 
